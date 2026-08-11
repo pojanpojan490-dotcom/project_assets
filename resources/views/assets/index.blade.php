@@ -119,6 +119,7 @@
                     <th>Category</th>
                     <th>Location</th>
                     <th>Purchase Date</th>
+                    <th>Dapa ga kerja</th>
                     <th>Status</th>
                     <th style="width: 150px;">Aksi</th>
                 </tr>
