@@ -5,7 +5,7 @@ use App\Http\Controllers\AssetController;
 use App\Http\Controllers\CategoriesController;
 
 Route::get('/', function () {
-    return redirect('/assets');
+    return redirect('/welcome');
 });
 
 // Route CRUD otomatis
