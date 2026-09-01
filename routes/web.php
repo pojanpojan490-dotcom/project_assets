@@ -8,6 +8,6 @@ Route::get('/', function () {
     return redirect('/welcome');
 });
 
-// Route CRUD otomatis
 Route::resource('assets', AssetController::class);
 Route::resource('categories', CategoriesController::class);
+
