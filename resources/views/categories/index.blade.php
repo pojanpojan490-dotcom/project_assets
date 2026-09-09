@@ -1,132 +1,209 @@
-<!DOCTYPE html>
-<html>
+@extends('layouts.app')
 
-<head>
+@section('title', 'Data Categories')
 
-    <title>Data Categories</title>
+@section('content')
 
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: #f4f6f9;
-            margin: 0;
-            padding: 20px;
+<style>
+    .page-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 25px;
+    }
+
+    .page-header h2 {
+        margin: 0;
+        font-size: 28px;
+        color: #1f2937;
+    }
+
+    .page-header p {
+        margin: 6px 0 0;
+        color: #6b7280;
+        font-size: 14px;
+    }
+
+    .btn {
+        display: inline-block;
+        padding: 10px 16px;
+        background: #3490dc;
+        color: white;
+        text-decoration: none;
+        border-radius: 7px;
+        font-size: 14px;
+        font-weight: 600;
+        transition: 0.2s;
+    }
+
+    .btn:hover {
+        background: #2779bd;
+    }
+
+    .alert {
+        background: #d4edda;
+        color: #155724;
+        padding: 12px 15px;
+        margin-bottom: 20px;
+        border-radius: 8px;
+        border: 1px solid #c3e6cb;
+    }
+
+    .table-card {
+        background: white;
+        border-radius: 12px;
+        padding: 20px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+        overflow-x: auto;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        text-align: center;
+    }
+
+    th {
+        background: #3490dc;
+        color: white;
+        padding: 14px;
+        font-size: 14px;
+    }
+
+    th:first-child {
+        border-radius: 8px 0 0 0;
+    }
+
+    th:last-child {
+        border-radius: 0 8px 0 0;
+    }
+
+    td {
+        padding: 14px;
+        border-bottom: 1px solid #e5e7eb;
+        color: #374151;
+        font-size: 14px;
+    }
+
+    tbody tr {
+        transition: 0.2s;
+    }
+
+    tbody tr:hover {
+        background: #f8fafc;
+    }
+
+    .category-name {
+        font-weight: 600;
+        color: #1f2937;
+    }
+
+    .aksi {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .btn-edit {
+        background: #f59e0b;
+        color: white;
+        padding: 7px 12px;
+        text-decoration: none;
+        border-radius: 6px;
+        font-size: 13px;
+        font-weight: 600;
+        transition: 0.2s;
+    }
+
+    .btn-edit:hover {
+        background: #d97706;
+    }
+
+    .btn-delete {
+        background: #ef4444;
+        color: white;
+        border: none;
+        padding: 7px 12px;
+        cursor: pointer;
+        border-radius: 6px;
+        font-size: 13px;
+        font-weight: 600;
+        transition: 0.2s;
+    }
+
+    .btn-delete:hover {
+        background: #dc2626;
+    }
+
+    .empty-state {
+        padding: 35px !important;
+        color: #9ca3af !important;
+        font-style: italic;
+    }
+
+    .total-category {
+        display: inline-block;
+        background: #eff6ff;
+        color: #2563eb;
+        padding: 5px 10px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: 600;
+        margin-left: 8px;
+    }
+
+    @media (max-width: 768px) {
+        .page-header {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 15px;
         }
 
-        .container {
-            max-width: 1000px;
-            margin: auto;
-            background: white;
-            padding: 25px;
-            border-radius: 10px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-        }
-
-        h3 {
-            margin-bottom: 20px;
-        }
-
-        .btn {
-            display: inline-block;
-            padding: 8px 14px;
-            background: #3490dc;
-            color: white;
-            text-decoration: none;
-            border-radius: 5px;
-            margin-bottom: 15px;
-        }
-
-        .btn:hover {
-            background: #2779bd;
-        }
-
-        table {
+        .page-header .btn {
             width: 100%;
-            border-collapse: collapse;
             text-align: center;
         }
 
-        th {
-            background: #3490dc;
-            color: white;
-            padding: 12px;
-        }
-
-        td {
-            padding: 12px;
-            border-bottom: 1px solid #ddd;
-        }
-
-        tr:hover {
-            background: #f1f1f1;
-        }
-
         .aksi {
-            display: flex;
-            justify-content: center;
-            gap: 5px;
+            flex-direction: column;
         }
+    }
+</style>
 
-        .btn-edit {
-            background: orange;
-            color: white;
-            padding: 5px 10px;
-            text-decoration: none;
-            border-radius: 4px;
-        }
+<div class="page-header">
+    <div>
+        <h2>
+            📂 Data Categories
+            <span class="total-category">
+                {{ $categories->count() }} Category
+            </span>
+        </h2>
 
-        .btn-delete {
-            background: red;
-            color: white;
-            border: none;
-            padding: 5px 10px;
-            cursor: pointer;
-            border-radius: 4px;
-        }
+        <p>Kelola data kategori asset yang tersedia.</p>
+    </div>
 
-        .btn-delete:hover {
-            background: darkred;
-        }
-
-        .alert {
-            background: #d4edda;
-            color: #155724;
-            padding: 10px;
-            margin-bottom: 15px;
-            border-radius: 5px;
-        }
-    </style>
-
-</head>
-
-<body>
-
-<div class="container">
-
-    <h3>📂 Data Categories</h3>
-
-    {{-- Pesan berhasil --}}
-    @if(session('success'))
-        <div class="alert">
-            {{ session('success') }}
-        </div>
-    @endif
-
-    {{-- Tombol Tambah --}}
     <a href="{{ route('categories.create') }}" class="btn">
         + Tambah Category
     </a>
+</div>
+
+{{-- Pesan berhasil --}}
+@if(session('success'))
+    <div class="alert">
+        ✓ {{ session('success') }}
+    </div>
+@endif
+
+<div class="table-card">
 
     <table>
-
         <thead>
-
             <tr>
-                <th>No</th>
+                <th width="80">No</th>
                 <th>Name</th>
-                <th style="width: 150px;">Aksi</th>
+                <th width="180">Aksi</th>
             </tr>
-
         </thead>
 
         <tbody>
@@ -134,65 +211,58 @@
             @forelse ($categories as $index => $category)
 
                 <tr>
-
                     <td>
                         {{ $index + 1 }}
                     </td>
 
-                    <td>
-                        {{ $category->name }}
+                    <td class="category-name">
+                        📁 {{ $category->name }}
                     </td>
 
                     <td>
-
                         <div class="aksi">
 
                             {{-- Tombol Edit --}}
-                            <a href="{{ route('categories.edit', $category->id) }}"
-                               class="btn-edit">
-                                Edit
+                            <a
+                                href="{{ route('categories.edit', $category->id) }}"
+                                class="btn-edit">
+                                ✏ Edit
                             </a>
 
                             {{-- Tombol Hapus --}}
-                            <form action="{{ route('categories.destroy', $category->id) }}"
-                                  method="POST">
+                            <form
+                                action="{{ route('categories.destroy', $category->id) }}"
+                                method="POST"
+                                onsubmit="return confirm('Yakin hapus category ini?')">
 
                                 @csrf
-
                                 @method('DELETE')
 
-                                <button type="submit"
-                                        class="btn-delete"
-                                        onclick="return confirm('Yakin hapus category ini?')">
-                                    Hapus
+                                <button
+                                    type="submit"
+                                    class="btn-delete">
+                                    🗑 Hapus
                                 </button>
 
                             </form>
 
                         </div>
-
                     </td>
-
                 </tr>
 
             @empty
 
                 <tr>
-
-                    <td colspan="3">
-                        Belum ada data category.
+                    <td colspan="3" class="empty-state">
+                        📂 Belum ada data category.
                     </td>
-
                 </tr>
 
             @endforelse
 
         </tbody>
-
     </table>
 
 </div>
 
-</body>
-
-</html>
+@endsection

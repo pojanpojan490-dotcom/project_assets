@@ -1,32 +1,15 @@
-<!DOCTYPE html>
+@extends('layouts.app')
 
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Data Assets</title>
+@section('title', 'Data Assets')
 
-```
+@section('content')
+
 <style>
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-    }
 
-    body {
-        font-family: Arial, Helvetica, sans-serif;
-        background: #f5f7fb;
-        color: #1f2937;
-        padding: 40px 20px;
-    }
+    /* =========================
+       HEADER
+    ========================= */
 
-    .container {
-        max-width: 1150px;
-        margin: auto;
-    }
-
-    /* HEADER */
     .header {
         display: flex;
         justify-content: space-between;
@@ -62,7 +45,11 @@
         transform: translateY(-1px);
     }
 
-    /* CARD */
+
+    /* =========================
+       CARD
+    ========================= */
+
     .card {
         background: white;
         border-radius: 14px;
@@ -92,7 +79,11 @@
         font-weight: bold;
     }
 
-    /* TABLE */
+
+    /* =========================
+       TABLE
+    ========================= */
+
     .table-wrapper {
         overflow-x: auto;
     }
@@ -132,6 +123,11 @@
         background: #f8fafc;
     }
 
+
+    /* =========================
+       TEXT
+    ========================= */
+
     .nomor {
         color: #94a3b8;
         font-weight: bold;
@@ -154,7 +150,11 @@
         color: #64748b;
     }
 
-    /* STATUS */
+
+    /* =========================
+       STATUS
+    ========================= */
+
     .badge {
         display: inline-block;
         padding: 6px 12px;
@@ -178,7 +178,11 @@
         color: #dc2626;
     }
 
-    /* AKSI */
+
+    /* =========================
+       AKSI
+    ========================= */
+
     .aksi {
         display: flex;
         justify-content: center;
@@ -216,14 +220,22 @@
         background: #fee2e2;
     }
 
-    /* EMPTY DATA */
+
+    /* =========================
+       EMPTY DATA
+    ========================= */
+
     .empty {
         padding: 40px;
         text-align: center;
         color: #94a3b8;
     }
 
-    /* FOOTER */
+
+    /* =========================
+       FOOTER
+    ========================= */
+
     .footer {
         text-align: center;
         margin-top: 20px;
@@ -231,11 +243,12 @@
         font-size: 12px;
     }
 
-    /* RESPONSIVE */
+
+    /* =========================
+       RESPONSIVE
+    ========================= */
+
     @media (max-width: 700px) {
-        body {
-            padding: 20px 10px;
-        }
 
         .header {
             flex-direction: column;
@@ -251,58 +264,85 @@
         .card {
             padding: 15px;
         }
+
     }
+
 </style>
-```
 
-</head>
 
-<body>
+<!-- =========================
+     HEADER
+========================= -->
 
-<div class="container">
-
-```
-<!-- HEADER -->
 <div class="header">
+
     <div class="header-left">
+
         <h1>📦 Data Assets</h1>
-        <p>Kelola dan pantau seluruh data aset dengan mudah.</p>
+
+        <p>
+            Kelola dan pantau seluruh data aset dengan mudah.
+        </p>
+
     </div>
+
 
     <a href="{{ route('assets.create') }}" class="btn-tambah">
         + Tambah Asset
     </a>
+
 </div>
 
 
-<!-- CARD -->
+<!-- =========================
+     CARD
+========================= -->
+
 <div class="card">
 
     <div class="card-title">
-        <h2>Daftar Asset</h2>
+
+        <h2>
+            Daftar Asset
+        </h2>
 
         <div class="total">
             Total: {{ count($assets) }} Asset
         </div>
+
     </div>
 
 
-    <!-- TABLE -->
+    <!-- =========================
+         TABLE
+    ========================= -->
+
     <div class="table-wrapper">
 
         <table>
 
             <thead>
+
                 <tr>
+
                     <th>No</th>
+
                     <th>Name</th>
+
                     <th>Category</th>
+
                     <th>Location</th>
+
                     <th>Purchase Date</th>
+
                     <th>Status</th>
+
                     <th>Aksi</th>
+
                 </tr>
+
             </thead>
+
 
             <tbody>
 
@@ -314,60 +354,86 @@
                         {{ $index + 1 }}
                     </td>
 
+
                     <td class="asset-name">
                         {{ $asset->name }}
                     </td>
+
 
                     <td class="category">
                         {{ $asset->category }}
                     </td>
 
+
                     <td class="location">
                         📍 {{ $asset->location }}
                     </td>
+
 
                     <td class="date">
                         {{ $asset->purchase_date }}
                     </td>
 
+
                     <td>
 
-                        @if (strtolower($asset->status) == 'tersedia' || strtolower($asset->status) == 'aktif')
+                        @if (
+                            strtolower($asset->status) == 'available' ||
+                            strtolower($asset->status) == 'tersedia' ||
+                            strtolower($asset->status) == 'aktif'
+                        )
+
                             <span class="badge bg-success">
                                 {{ $asset->status }}
                             </span>
 
-                        @elseif (strtolower($asset->status) == 'dipinjam' || strtolower($asset->status) == 'maintenance')
+                        @elseif (
+                            strtolower($asset->status) == 'borrowed' ||
+                            strtolower($asset->status) == 'dipinjam' ||
+                            strtolower($asset->status) == 'maintenance'
+                        )
+
                             <span class="badge bg-warning">
                                 {{ $asset->status }}
                             </span>
 
                         @else
+
                             <span class="badge bg-danger">
                                 {{ $asset->status }}
                             </span>
+
                         @endif
 
                     </td>
+
 
                     <td>
 
                         <div class="aksi">
 
-                            <a href="{{ route('assets.edit', $asset->id) }}"
-                               class="btn-edit">
+                            <a
+                                href="{{ route('assets.edit', $asset->id) }}"
+                                class="btn-edit"
+                            >
                                 ✏ Edit
                             </a>
 
-                            <form action="{{ route('assets.destroy', $asset->id) }}"
-                                  method="POST">
+
+                            <form
+                                action="{{ route('assets.destroy', $asset->id) }}"
+                                method="POST"
+                            >
 
                                 @csrf
+
                                 @method('DELETE')
 
-                                <button type="submit"
-                                        class="btn-delete"
-                                        onclick="return confirm('Yakin ingin menghapus asset ini?')">
+                                <button
+                                    type="submit"
+                                    class="btn-delete"
+                                    onclick="return confirm('Yakin ingin menghapus asset ini?')"
+                                >
                                     🗑 Hapus
                                 </button>
 
@@ -382,9 +448,11 @@
                 @empty
 
                 <tr>
+
                     <td colspan="7" class="empty">
                         📭 Belum ada data asset.
                     </td>
+
                 </tr>
 
                 @endforelse
@@ -397,12 +465,13 @@
 
 </div>
 
+
+<!-- FOOTER -->
+
 <div class="footer">
+
     © {{ date('Y') }} Asset Management System
-</div>
-```
 
 </div>
 
-</body>
-</html>
+@endsection
