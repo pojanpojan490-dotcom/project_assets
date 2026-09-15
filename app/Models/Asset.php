@@ -13,9 +13,18 @@ class Asset extends Model
 
     protected $fillable = [
         'name',
-        'category',
-        'location',
+        'category_id',
         'purchase_date',
         'status'
     ];
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class, 'category_id');
+    }
+
+    public function kerusakans()
+    {
+        return $this->hasMany(Kerusakan::class, 'asset_id');
+    }
 }

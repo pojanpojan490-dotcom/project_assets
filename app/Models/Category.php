@@ -16,4 +16,14 @@ class Category extends Model
     ];
 
     public $timestamps = false;
+
+    public function assets()
+    {
+        return $this->hasMany(Asset::class, 'category_id');
+    }
+
+    public function barangs()
+    {
+        return $this->hasMany(Barang::class, 'category_id');
+    }
 }

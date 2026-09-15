@@ -251,19 +251,7 @@
 
             <!-- DASHBOARD -->
 
-            <a href="{{ route('assets.index') }}"
-               class="{{ request()->is('dashboard') ? 'active' : '' }}">
-
-                <span class="menu-icon">
-                    🏠
-                </span>
-
-                <span>
-                    Dashboard
-                </span>
-
-            </a>
-
+            
 
             <!-- DATA ASSETS -->
 
@@ -277,7 +265,6 @@
                 <span>
                     Data Assets
                 </span>
-
             </a>
 
             <a href="{{ route('categories.index') }}"
@@ -290,9 +277,55 @@
                 <span>
                     Data Category
                 </span>
-
             </a>
 
+            <a href="{{ route('barang.index') }}"
+                class="{{ request()->is('barang*') ? 'active' : '' }}">
+
+                    <span class="menu-icon">
+                        📦
+                    </span>
+
+                    <span>
+                        Data Barang
+                    </span>
+            </a>
+
+            <a href="{{ route('kerusakan.index') }}"
+                class="{{ request()->is('kerusakan*') ? 'active' : '' }}">
+
+                <span class="menu-icon">
+                        🔧
+                </span>
+
+                <span>
+                    Data Kerusakan
+                </span>
+            </a>
+
+            <a href="{{ route('penyusutan.index') }}"
+                class="{{ request()->is('penyusutan*') ? 'active' : '' }}">
+
+                <span class="menu-icon">
+                        📉
+                </span>
+
+                <span>
+                    Data Penyusutan
+                </span>
+            </a>
+
+            <a href="{{ route('stok.index') }}"
+                class="{{ request()->is('stok*') ? 'active' : '' }}">
+
+                    <span class="menu-icon">
+                            📊
+                    </span>
+
+                    <span>
+                        Data Stok
+                    </span>
+                </a>
 
             <!-- TAMBAH ASSET -->
 

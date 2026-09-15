@@ -4,37 +4,37 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Asset;
+use App\Models\Category;
 
 class AssetController extends Controller
 {
-    // 🔹 TAMPIL DATA
+    // TAMPIL DATA
     public function index()
     {
-        $assets = Asset::all();
+        $assets = Asset::with('category')->get();
         return view('assets.index', compact('assets'));
     }
 
-    // 🔹 FORM CREATE
+    // FORM CREATE
     public function create()
     {
-        return view('assets.create');
+        $categories = Category::all();
+        return view('assets.create', compact('categories'));
     }
 
-    // 🔹 SIMPAN DATA
+    // SIMPAN DATA
     public function store(Request $request)
     {
         $request->validate([
             'name' => 'required',
-            'category' => 'required',
-            'location' => 'required',
-            'purchase_date' => 'required',
+            'category_id' => 'required|exists:categories,id',
+            'purchase_date' => 'required|date',
             'status' => 'required'
         ]);
 
         Asset::create($request->only([
             'name',
-            'category',
-            'location',
+            'category_id',
             'purchase_date',
             'status'
         ]));
@@ -42,21 +42,22 @@ class AssetController extends Controller
         return redirect('/assets')->with('success', 'Data berhasil ditambahkan!');
     }
 
-    // 🔹 FORM EDIT
+    // FORM EDIT
     public function edit($id)
     {
         $asset = Asset::findOrFail($id);
-        return view('assets.edit', compact('asset'));
+        $categories = Category::all();
+
+        return view('assets.edit', compact('asset', 'categories'));
     }
 
-    // 🔹 UPDATE DATA
+    // UPDATE DATA
     public function update(Request $request, $id)
     {
         $request->validate([
             'name' => 'required',
-            'category' => 'required',
-            'location' => 'required',
-            'purchase_date' => 'required',
+            'category_id' => 'required|exists:categories,id',
+            'purchase_date' => 'required|date',
             'status' => 'required'
         ]);
 
@@ -64,8 +65,7 @@ class AssetController extends Controller
 
         $asset->update($request->only([
             'name',
-            'category',
-            'location',
+            'category_id',
             'purchase_date',
             'status'
         ]));
@@ -73,7 +73,7 @@ class AssetController extends Controller
         return redirect('/assets')->with('success', 'Data berhasil diupdate!');
     }
 
-    // 🔹 HAPUS DATA
+    // HAPUS DATA
     public function destroy($id)
     {
         $asset = Asset::findOrFail($id);

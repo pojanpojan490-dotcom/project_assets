@@ -1,15 +1,10 @@
 @extends('layouts.app')
 
-@section('title', 'Data Assets')
+@section('title', 'Data Barang')
 
 @section('content')
 
 <style>
-
-    /* =========================
-       HEADER
-    ========================= */
-
     .header {
         display: flex;
         justify-content: space-between;
@@ -45,11 +40,6 @@
         transform: translateY(-1px);
     }
 
-
-    /* =========================
-       CARD
-    ========================= */
-
     .card {
         background: white;
         border-radius: 14px;
@@ -79,11 +69,6 @@
         font-weight: bold;
     }
 
-
-    /* =========================
-       TABLE
-    ========================= */
-
     .table-wrapper {
         overflow-x: auto;
     }
@@ -91,7 +76,7 @@
     table {
         width: 100%;
         border-collapse: collapse;
-        min-width: 850px;
+        min-width: 950px;
     }
 
     thead {
@@ -123,17 +108,17 @@
         background: #f8fafc;
     }
 
-
-    /* =========================
-       TEXT
-    ========================= */
-
     .nomor {
         color: #94a3b8;
         font-weight: bold;
     }
 
-    .asset-name {
+    .kode {
+        color: #475569;
+        font-weight: bold;
+    }
+
+    .barang-name {
         font-weight: bold;
         color: #1e293b;
     }
@@ -142,46 +127,19 @@
         color: #475569;
     }
 
-    .location {
-        color: #64748b;
+    .jumlah {
+        color: #475569;
+        font-weight: bold;
     }
 
     .date {
         color: #64748b;
     }
 
-
-    /* =========================
-       STATUS
-    ========================= */
-
-    .badge {
-        display: inline-block;
-        padding: 6px 12px;
-        border-radius: 20px;
-        font-size: 12px;
-        font-weight: bold;
+    .harga {
+        color: #1e293b;
+        font-weight: 600;
     }
-
-    .bg-success {
-        background: #dcfce7;
-        color: #15803d;
-    }
-
-    .bg-warning {
-        background: #fef3c7;
-        color: #b45309;
-    }
-
-    .bg-danger {
-        background: #fee2e2;
-        color: #dc2626;
-    }
-
-
-    /* =========================
-       AKSI
-    ========================= */
 
     .aksi {
         display: flex;
@@ -220,21 +178,19 @@
         background: #fee2e2;
     }
 
-
-    /* =========================
-       EMPTY DATA
-    ========================= */
-
     .empty {
         padding: 40px;
         text-align: center;
         color: #94a3b8;
     }
 
-
-    /* =========================
-       FOOTER
-    ========================= */
+    .alert-success {
+        background: #dcfce7;
+        color: #15803d;
+        padding: 12px 16px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+    }
 
     .footer {
         text-align: center;
@@ -243,13 +199,7 @@
         font-size: 12px;
     }
 
-
-    /* =========================
-       RESPONSIVE
-    ========================= */
-
     @media (max-width: 700px) {
-
         .header {
             flex-direction: column;
             align-items: flex-start;
@@ -264,58 +214,44 @@
         .card {
             padding: 15px;
         }
-
     }
-
 </style>
-
-
-<!-- =========================
-     HEADER
-========================= -->
 
 <div class="header">
 
     <div class="header-left">
-
-        <h1>📦 Data Assets</h1>
+        <h1>📦 Data Barang</h1>
 
         <p>
-            Kelola dan pantau seluruh data aset dengan mudah.
+            Kelola dan pantau seluruh data barang dengan mudah.
         </p>
-
     </div>
 
-
-    <a href="{{ route('assets.create') }}" class="btn-tambah">
-        + Tambah Asset
+    <a href="{{ route('barang.create') }}" class="btn-tambah">
+        + Tambah Barang
     </a>
 
 </div>
 
-
-<!-- =========================
-     CARD
-========================= -->
+@if(session('success'))
+    <div class="alert-success">
+        <strong>Berhasil!</strong> {{ session('success') }}
+    </div>
+@endif
 
 <div class="card">
 
     <div class="card-title">
 
         <h2>
-            Daftar Asset
+            Daftar Barang
         </h2>
 
         <div class="total">
-            Total: {{ count($assets) }} Asset
+            Total: {{ count($barangs) }} Barang
         </div>
 
     </div>
-
-
-    <!-- =========================
-         TABLE
-    ========================= -->
 
     <div class="table-wrapper">
 
@@ -324,29 +260,21 @@
             <thead>
 
                 <tr>
-
                     <th>No</th>
-
-                    <th>Name</th>
-
-                    <th>Category</th>
-
-                    <th>Location</th>
-
-                    <th>Purchase Date</th>
-
-                    <th>Status</th>
-
+                    <th>Kode</th>
+                    <th>Nama Barang</th>
+                    <th>Kategori</th>
+                    <th>Jumlah</th>
+                    <th>Tanggal Beli</th>
+                    <th>Harga Beli</th>
                     <th>Aksi</th>
-
                 </tr>
 
             </thead>
 
-
             <tbody>
 
-                @forelse ($assets as $index => $asset)
+                @forelse ($barangs as $index => $barang)
 
                 <tr>
 
@@ -354,78 +282,47 @@
                         {{ $index + 1 }}
                     </td>
 
-
-                    <td class="asset-name">
-                        {{ $asset->name }}
+                    <td class="kode">
+                        {{ $barang->kode_barang }}
                     </td>
 
+                    <td class="barang-name">
+                        {{ $barang->nama_barang }}
+                    </td>
 
-                    <td>{{ $asset->category->name ?? '-' }}</td>
+                    <td class="category">
+                        {{ $barang->category->name ?? '-' }}
+                    </td>
 
+                    <td class="jumlah">
+                        {{ $barang->jumlah }}
+                    </td>
 
                     <td class="date">
-                        {{ $asset->purchase_date }}
+                        {{ $barang->tanggal_beli ? \Carbon\Carbon::parse($barang->tanggal_beli)->format('d-m-Y') : '-' }}
                     </td>
 
-
-                    <td>
-
-                        @if (
-                            strtolower($asset->status) == 'available' ||
-                            strtolower($asset->status) == 'tersedia' ||
-                            strtolower($asset->status) == 'aktif'
-                        )
-
-                            <span class="badge bg-success">
-                                {{ $asset->status }}
-                            </span>
-
-                        @elseif (
-                            strtolower($asset->status) == 'borrowed' ||
-                            strtolower($asset->status) == 'dipinjam' ||
-                            strtolower($asset->status) == 'maintenance'
-                        )
-
-                            <span class="badge bg-warning">
-                                {{ $asset->status }}
-                            </span>
-
-                        @else
-
-                            <span class="badge bg-danger">
-                                {{ $asset->status }}
-                            </span>
-
-                        @endif
-
+                    <td class="harga">
+                        {{ $barang->harga_beli ? 'Rp ' . number_format($barang->harga_beli, 0, ',', '.') : '-' }}
                     </td>
-
 
                     <td>
 
                         <div class="aksi">
 
-                            <a
-                                href="{{ route('assets.edit', $asset->id) }}"
-                                class="btn-edit"
-                            >
+                            <a href="{{ route('barang.edit', $barang->id_barang) }}" class="btn-edit">
                                 ✏ Edit
                             </a>
 
-
-                            <form
-                                action="{{ route('assets.destroy', $asset->id) }}"
-                                method="POST"
-                            >
+                            <form action="{{ route('barang.destroy', $barang->id_barang) }}" method="POST">
 
                                 @csrf
-
                                 @method('DELETE')
 
                                 <button
                                     type="submit"
                                     class="btn-delete"
-                                    onclick="return confirm('Yakin ingin menghapus asset ini?')"
+                                    onclick="return confirm('Yakin ingin menghapus barang ini?')"
                                 >
                                     🗑 Hapus
                                 </button>
@@ -442,8 +339,8 @@
 
                 <tr>
 
-                    <td colspan="7" class="empty">
-                        📭 Belum ada data asset.
+                    <td colspan="8" class="empty">
+                        📭 Belum ada data barang.
                     </td>
 
                 </tr>
@@ -458,13 +355,8 @@
 
 </div>
 
-
-<!-- FOOTER -->
-
 <div class="footer">
-
     © {{ date('Y') }} Asset Management System
-
 </div>
 
 @endsection
