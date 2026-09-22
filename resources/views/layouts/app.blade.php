@@ -329,18 +329,6 @@
 
             <!-- TAMBAH ASSET -->
 
-            <a href="{{ route('assets.create') }}">
-
-                <span class="menu-icon">
-                    ➕
-                </span>
-
-                <span>
-                    Tambah Asset
-                </span>
-
-            </a>
-
         </nav>
 
 
