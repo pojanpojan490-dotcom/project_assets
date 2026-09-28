@@ -12,7 +12,7 @@ use App\Http\Controllers\PenyusutanController;
 Route::get('/', function () {
     return redirect()->route('assets.index');
 });
-
+Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 Route::resource('assets', AssetController::class);
 Route::resource('categories', CategoriesController::class);
 Route::resource('barang', BarangController::class);
