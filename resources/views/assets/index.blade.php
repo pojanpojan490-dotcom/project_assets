@@ -2,60 +2,81 @@
 
 @section('title', 'Data Assets')
 
-@section('content')
-
+@section('styles')
 <style>
-
     /* =========================
        HEADER
     ========================= */
-
-    .header {
+    .page-header {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        margin-bottom: 25px;
+        margin-bottom: 24px;
+        flex-wrap: wrap;
+        gap: 16px;
     }
 
-    .header-left h1 {
-        font-size: 28px;
-        color: #111827;
-        margin-bottom: 6px;
+    .page-title {
+        font-size: 24px;
+        font-weight: 700;
+        color: #0f172a;
+        display: flex;
+        align-items: center;
+        gap: 10px;
     }
 
-    .header-left p {
-        color: #6b7280;
+    .page-subtitle {
+        color: #64748b;
         font-size: 14px;
+        margin-top: 4px;
     }
 
     .btn-tambah {
-        display: inline-block;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
         background: #2563eb;
         color: white;
         text-decoration: none;
-        padding: 11px 18px;
+        padding: 10px 18px;
         border-radius: 8px;
         font-size: 14px;
-        font-weight: bold;
-        transition: 0.2s;
+        font-weight: 600;
+        box-shadow: 0 2px 4px rgba(37, 99, 235, 0.2);
+        transition: all 0.2s ease;
     }
 
     .btn-tambah:hover {
         background: #1d4ed8;
         transform: translateY(-1px);
+        box-shadow: 0 4px 6px rgba(37, 99, 235, 0.3);
     }
 
+    /* =========================
+       ALERT
+    ========================= */
+    .alert-success {
+        background-color: #f0fdf4;
+        border: 1px solid #bbf7d0;
+        color: #166534;
+        padding: 12px 16px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+        font-size: 14px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
 
     /* =========================
-       CARD
+       CARD & TABLE
     ========================= */
-
     .card {
         background: white;
-        border-radius: 14px;
-        padding: 25px;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
-        border: 1px solid #e5e7eb;
+        border-radius: 12px;
+        padding: 24px;
+        border: 1px solid #e2e8f0;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
     }
 
     .card-title {
@@ -66,23 +87,20 @@
     }
 
     .card-title h2 {
-        font-size: 18px;
-        color: #111827;
+        font-size: 16px;
+        font-weight: 600;
+        color: #1e293b;
     }
 
-    .total {
+    .total-badge {
         background: #eff6ff;
         color: #2563eb;
-        padding: 7px 12px;
+        padding: 6px 14px;
         border-radius: 20px;
-        font-size: 13px;
-        font-weight: bold;
+        font-size: 12px;
+        font-weight: 600;
+        border: 1px solid #dbeafe;
     }
-
-
-    /* =========================
-       TABLE
-    ========================= */
 
     .table-wrapper {
         overflow-x: auto;
@@ -91,7 +109,7 @@
     table {
         width: 100%;
         border-collapse: collapse;
-        min-width: 850px;
+        min-width: 800px;
     }
 
     thead {
@@ -99,68 +117,56 @@
     }
 
     th {
-        padding: 14px 12px;
-        color: #64748b;
+        padding: 12px 16px;
+        color: #475569;
         font-size: 12px;
+        font-weight: 600;
         text-transform: uppercase;
-        letter-spacing: 0.5px;
-        border-bottom: 2px solid #e5e7eb;
+        letter-spacing: 0.05em;
+        border-bottom: 1px solid #e2e8f0;
+        text-align: left;
+    }
+
+    th.text-center, td.text-center {
         text-align: center;
     }
 
     td {
-        padding: 15px 12px;
-        border-bottom: 1px solid #eef0f3;
+        padding: 16px;
+        border-bottom: 1px solid #f1f5f9;
         font-size: 14px;
-        text-align: center;
+        color: #334155;
     }
 
     tbody tr {
-        transition: 0.2s;
+        transition: background-color 0.15s ease;
     }
 
     tbody tr:hover {
-        background: #f8fafc;
+        background-color: #f8fafc;
     }
-
-
-    /* =========================
-       TEXT
-    ========================= */
 
     .nomor {
         color: #94a3b8;
-        font-weight: bold;
+        font-weight: 600;
     }
 
     .asset-name {
-        font-weight: bold;
-        color: #1e293b;
+        font-weight: 600;
+        color: #0f172a;
     }
-
-    .category {
-        color: #475569;
-    }
-
-    .location {
-        color: #64748b;
-    }
-
-    .date {
-        color: #64748b;
-    }
-
 
     /* =========================
-       STATUS
+       BADGES
     ========================= */
-
     .badge {
-        display: inline-block;
-        padding: 6px 12px;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 4px 10px;
         border-radius: 20px;
         font-size: 12px;
-        font-weight: bold;
+        font-weight: 600;
     }
 
     .bg-success {
@@ -178,28 +184,28 @@
         color: #dc2626;
     }
 
-
     /* =========================
        AKSI
     ========================= */
-
     .aksi {
         display: flex;
         justify-content: center;
         align-items: center;
-        gap: 7px;
+        gap: 8px;
     }
 
-    .btn-edit,
-    .btn-delete {
-        border: none;
-        padding: 7px 12px;
+    .btn-action {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 32px;
+        height: 32px;
         border-radius: 6px;
-        font-size: 12px;
-        font-weight: bold;
+        border: none;
         cursor: pointer;
         text-decoration: none;
-        transition: 0.2s;
+        transition: all 0.2s ease;
+        font-size: 13px;
     }
 
     .btn-edit {
@@ -208,7 +214,8 @@
     }
 
     .btn-edit:hover {
-        background: #dbeafe;
+        background: #2563eb;
+        color: white;
     }
 
     .btn-delete {
@@ -217,254 +224,170 @@
     }
 
     .btn-delete:hover {
-        background: #fee2e2;
+        background: #dc2626;
+        color: white;
     }
 
-
-    /* =========================
-       EMPTY DATA
-    ========================= */
-
     .empty {
-        padding: 40px;
+        padding: 48px 20px;
         text-align: center;
         color: #94a3b8;
     }
 
-
-    /* =========================
-       FOOTER
-    ========================= */
+    .empty i {
+        font-size: 36px;
+        margin-bottom: 12px;
+        color: #cbd5e1;
+    }
 
     .footer {
         text-align: center;
-        margin-top: 20px;
+        margin-top: 32px;
         color: #94a3b8;
         font-size: 12px;
     }
 
-
-    /* =========================
-       RESPONSIVE
-    ========================= */
-
-    @media (max-width: 700px) {
-
-        .header {
+    @media (max-width: 640px) {
+        .page-header {
             flex-direction: column;
             align-items: flex-start;
-            gap: 15px;
         }
 
         .btn-tambah {
             width: 100%;
-            text-align: center;
+            justify-content: center;
         }
-
-        .card {
-            padding: 15px;
-        }
-
     }
-
 </style>
+@endsection
 
+@section('content')
 
-<!-- =========================
-     HEADER
-========================= -->
-
-<div class="header">
-
-    <div class="header-left">
-
-        <h1>📦 Data Assets</h1>
-
-        <p>
-            Kelola dan pantau seluruh data aset dengan mudah.
-        </p>
-
+<!-- HEADER -->
+<div class="page-header">
+    <div>
+        <h1 class="page-title">
+            <i class="fa-solid fa-box-archive" style="color: #2563eb;"></i> Data Assets
+        </h1>
+        <p class="page-subtitle">Kelola dan pantau seluruh data aset perusahaan secara terpusat.</p>
     </div>
-
 
     <a href="{{ route('assets.create') }}" class="btn-tambah">
-        + Tambah Asset
+        <i class="fa-solid fa-plus"></i> Tambah Asset
     </a>
-
 </div>
 
+<!-- PESAN NOTIFIKASI SUKSES -->
+@if(session('success'))
+    <div class="alert-success">
+        <i class="fa-solid fa-circle-check"></i> {{ session('success') }}
+    </div>
+@endif
 
-<!-- =========================
-     CARD
-========================= -->
-
+<!-- CARD & TABLE -->
 <div class="card">
-
     <div class="card-title">
-
-        <h2>
-            Daftar Asset
-        </h2>
-
-        <div class="total">
+        <h2>Daftar Asset</h2>
+        <div class="total-badge">
             Total: {{ count($assets) }} Asset
         </div>
-
     </div>
 
-
-    <!-- =========================
-         TABLE
-    ========================= -->
-
     <div class="table-wrapper">
-
         <table>
-
             <thead>
-
                 <tr>
-
-                    <th>No</th>
-
-                    <th>Name</th>
-
-                    <th>Category</th>
-
-                    <th>Location</th>
-
-                    <th>Purchase Date</th>
-
-                    <th>Status</th>
-
-                    <th>Aksi</th>
-
+                    <th class="text-center" style="width: 60px;">No</th>
+                    <th>Nama Asset</th>
+                    <th>Kategori</th>
+                    <th>Lokasi</th>
+                    <th>Tanggal Pembelian</th>
+                    <th class="text-center">Status</th>
+                    <th class="text-center" style="width: 120px;">Aksi</th>
                 </tr>
-
             </thead>
 
-
             <tbody>
-
                 @forelse ($assets as $index => $asset)
-
                 <tr>
-
-                    <td class="nomor">
-                        {{ $index + 1 }}
-                    </td>
-
+                    <td class="text-center nomor">{{ $index + 1 }}</td>
 
                     <td class="asset-name">
                         {{ $asset->name }}
                     </td>
 
-
-                    <td>{{ $asset->category->name ?? '-' }}</td>
-
-
-                    <td class="date">
-                        {{ $asset->purchase_date }}
+                    <td>
+                        <span style="display: inline-flex; align-items: center; gap: 6px;">
+                            <i class="fa-solid fa-folder" style="color: #94a3b8; font-size: 12px;"></i>
+                            {{ $asset->category->name ?? '-' }}
+                        </span>
                     </td>
 
+                    <td>
+                        <span style="color: #64748b;">
+                            <i class="fa-solid fa-location-dot" style="color: #94a3b8; font-size: 12px; margin-right: 4px;"></i>
+                            {{ $asset->location ?? '-' }}
+                        </span>
+                    </td>
 
                     <td>
+                        <span style="color: #64748b;">
+                            <i class="fa-regular fa-calendar" style="color: #94a3b8; font-size: 12px; margin-right: 4px;"></i>
+                            {{ $asset->purchase_date ? date('d M Y', strtotime($asset->purchase_date)) : '-' }}
+                        </span>
+                    </td>
 
-                        @if (
-                            strtolower($asset->status) == 'available' ||
-                            strtolower($asset->status) == 'tersedia' ||
-                            strtolower($asset->status) == 'aktif'
-                        )
+                    <td class="text-center">
+                        @php
+                            $status = strtolower($asset->status);
+                        @endphp
 
+                        @if (in_array($status, ['available', 'tersedia', 'aktif']))
                             <span class="badge bg-success">
-                                {{ $asset->status }}
+                                <i class="fa-solid fa-circle-check" style="font-size: 10px;"></i> {{ $asset->status }}
                             </span>
-
-                        @elseif (
-                            strtolower($asset->status) == 'borrowed' ||
-                            strtolower($asset->status) == 'dipinjam' ||
-                            strtolower($asset->status) == 'maintenance'
-                        )
-
+                        @elseif (in_array($status, ['borrowed', 'dipinjam', 'maintenance', 'pemeliharaan']))
                             <span class="badge bg-warning">
-                                {{ $asset->status }}
+                                <i class="fa-solid fa-clock-rotate-left" style="font-size: 10px;"></i> {{ $asset->status }}
                             </span>
-
                         @else
-
                             <span class="badge bg-danger">
-                                {{ $asset->status }}
+                                <i class="fa-solid fa-circle-xmark" style="font-size: 10px;"></i> {{ $asset->status }}
                             </span>
-
                         @endif
-
                     </td>
 
-
-                    <td>
-
+                    <td class="text-center">
                         <div class="aksi">
-
-                            <a
-                                href="{{ route('assets.edit', $asset->id) }}"
-                                class="btn-edit"
-                            >
-                                ✏ Edit
+                            <a href="{{ route('assets.edit', $asset->id) }}" class="btn-action btn-edit" title="Edit Asset">
+                                <i class="fa-solid fa-pen-to-square"></i>
                             </a>
 
-
-                            <form
-                                action="{{ route('assets.destroy', $asset->id) }}"
-                                method="POST"
-                            >
-
+                            <form action="{{ route('assets.destroy', $asset->id) }}" method="POST" style="display: inline;">
                                 @csrf
-
                                 @method('DELETE')
-
-                                <button
-                                    type="submit"
-                                    class="btn-delete"
-                                    onclick="return confirm('Yakin ingin menghapus asset ini?')"
-                                >
-                                    🗑 Hapus
+                                <button type="submit" class="btn-action btn-delete" title="Hapus Asset" onclick="return confirm('Yakin ingin menghapus asset ini?')">
+                                    <i class="fa-solid fa-trash-can"></i>
                                 </button>
-
                             </form>
-
                         </div>
-
                     </td>
-
                 </tr>
-
                 @empty
-
                 <tr>
-
                     <td colspan="7" class="empty">
-                        📭 Belum ada data asset.
+                        <i class="fa-solid fa-inbox"></i>
+                        <p>Belum ada data asset yang tersimpan.</p>
                     </td>
-
                 </tr>
-
                 @endforelse
-
             </tbody>
-
         </table>
-
     </div>
-
 </div>
 
-
-<!-- FOOTER -->
-
 <div class="footer">
-
     © {{ date('Y') }} Asset Management System
-
 </div>
 
 @endsection
